@@ -34,8 +34,7 @@ export default function ArabicKeyboard({ mapping = {}, system = "abjad", onPress
     consonantForms.forEach((cf) => {
       cf.forms.forEach((form) => {
         const lastChar = form.slice(-1);
-        if (/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u0870-\u089F\uFB50-\uFDFF\uFE70-\uFEFF\u1EE00-\u1EEFF]/g
-.test(lastChar)) vowelLetters.add(lastChar);
+        if (/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u0870-\u089F\uFB50-\uFDFF\uFE70-\uFEFF\u1EE00-\u1EEFF]/g.test(lastChar)) vowelLetters.add(lastChar);
       });
     });
     standaloneVowels = Array.from(vowelLetters).map((v) => `ئ${v}`);
