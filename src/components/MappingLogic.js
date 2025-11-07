@@ -48,7 +48,7 @@ export const CONSONANTS = {
   "q": "ق",
   "r": "ر",
   "ɹ": "ݛ",
-  "ɾ": "ۮ",
+  "ɾ": "ڒ",
   "ɽ": "ڑ",
   "ɻ": "ݱ",
   "ɺ": "ړ",
@@ -132,16 +132,17 @@ export const PH_GROUPS = {
   "h": ["ħ", "ɦ", "ɧ"],
   "ʔ": ["ʡ", "ʢ"],
   "b": ["p", "β", "ɓ", "ʙ"],
-  "ʤ": ["ʒ", "g", "ʥ", "ʣ", "ʧ", "ʨ", "ʦ"],
+  "ʤ": ["ʒ", "ʥ", "ʣ", "ʧ"],
   "x": ["χ", "ç"],
   "z": ["ʣ", "ʒ", "ʑ", "ʐ", "ð"],
   "s": ["ʦ", "ʃ", "ɕ", "ʂ", "θ"],
-  "ʃ": ["ɕ", "ʂ", "ç", "ʧ", "ɬ"],
+  "ʃ": ["ɕ", "ʂ", "ç", "ʧ", "ɬ", "ꞎ"],
   "ɣ": ["g", "ʁ", "ɢ", "ʝ"],
   "f": ["ɸ", "p", "v"],
   "q": ["ɢ"],
   "m": ["ɱ"],
-  "w": ["v", "ʋ", "β", "ⱱ"],};
+  "w": ["v", "ʋ", "β", "ⱱ"],
+  "ʧ": ["ʨ", "ʦ", "c"]};
 
 export const V_GROUPS = {
   "a": ["æ", "ɐ", "ɑ", "ɒ", "ɶ", "ʌ", "ɛ", "ɜ", "ɞ", "ə"],
@@ -200,8 +201,8 @@ export function handleDiphthong(v1, v2, system) {
   if (system === 'alpha-syllabary') {
     const g1 = classify(v1); const g2 = classify(v2);
     let connector = 'أ';
-    if (g1 === 'kasra' || g2 === 'kasra') connector = 'ئ';
-    else if (g1 === 'damma' || g2 === 'damma') connector = 'ؤ';
+    if (g1 === 'kasra' || g2 === 'kasra') connector = 'ي';
+    else if (g1 === 'damma' || g2 === 'damma') connector = 'و';
     if (VOWELS[v1] && VOWELS[v2]) return VOWELS[v1].diacritic + connector + VOWELS[v2].diacritic;
     return '';
   }
