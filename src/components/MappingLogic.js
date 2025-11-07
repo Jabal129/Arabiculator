@@ -239,4 +239,3 @@ export function mapWithTa2wil(consonantList, vowelList, system) {
   const updatedVs = vowelList.map((v) => (vInterp[v] ? vInterp[v] : v));
   return mapPhonemes(updatedCs, updatedVs, system);
 }
-
