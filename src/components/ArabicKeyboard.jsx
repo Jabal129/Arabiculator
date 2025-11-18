@@ -19,7 +19,7 @@ export default function ArabicKeyboard({ mapping = {}, system = "abjad", onPress
       .map((cf) => cf.forms[0]?.replace(/[\u064B-\u065F]/g, "")) // strip diacritics
       .filter(Boolean);
 
-    standaloneVowels = "ا، و، ي".split("، ").map((v) => v.trim());
+    standaloneVowels = ["ا", "و", "ي"];
   }
 
   // --- Alphabetic ---
