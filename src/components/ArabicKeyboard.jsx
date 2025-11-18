@@ -18,6 +18,8 @@ export default function ArabicKeyboard({ mapping = {}, system = "abjad", onPress
     unvocalized = consonantForms
       .map((cf) => cf.forms[0]?.replace(/[\u064B-\u065F]/g, "")) // strip diacritics
       .filter(Boolean);
+
+    standaloneVowels = "ا، و، ي".split("، ").map((v) => v.trim());
   }
 
   // --- Alphabetic ---
@@ -83,7 +85,12 @@ export default function ArabicKeyboard({ mapping = {}, system = "abjad", onPress
     <div className="p-6 bg-gray-100 rounded-3xl w-full max-w-5xl mx-auto">
       <h2 className="text-2xl font-bold mb-4 text-center text-black">Arabic Keyboard</h2>
 
-      {system === "abjad" && renderRow("Unvocalized Consonants", unvocalized)}
+      {system === "abjad" && (
+        <>
+            {renderRow("Unvocalized Consonants", unvocalized)}
+          {renderRow("mater lectionis", standaloneVowels)}
+        </>
+      )}
       {system === "alphabetic" && (
         <>
             {renderRow("Unvocalized Consonants", unvocalized)}
