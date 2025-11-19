@@ -4,6 +4,9 @@ import { IPAConsonantKeyboard, IPAVowelKeyboard } from "./IPAKeyboard";
 export default function PhonemeInputPage({ onNext }) {
   const [consonants, setConsonants] = useState([]);
   const [vowels, setVowels] = useState([]);
+  const [building, setBuilding] = useState(null);   // base consonant
+  const [mods, setMods] = useState([]);             // list of modifiers
+
 
   // Add new phonemes (prevent duplicates)
   const addConsonant = (symbol) =>
@@ -35,7 +38,32 @@ export default function PhonemeInputPage({ onNext }) {
           {consonants.join(" ") || "(none)"}
         </div>
 
-        <IPAConsonantKeyboard onSelect={addConsonant} />
+        <IPAConsonantKeyboard
+                onSelect={(c) => {
+                  setBuilding(c);   // start building
+                  setMods([]);      // reset modifiers
+                }}
+        />
+          {building && (
+            <ModifierKeyboard
+              current={building + mods.join("")}
+              onAddModifier={(m) => setMods((prev) => [...prev, m])}
+              onCancel={() => {
+                setBuilding(null);
+                setMods([]);
+              }}
+              onConfirm={() => {
+                const finalPhoneme = building + mods.join("");
+                setConsonants((prev) =>
+                  prev.includes(finalPhoneme) ? prev : [...prev, finalPhoneme]
+                );
+                setBuilding(null);
+                setMods([]);
+              }}
+            />
+          )}
+
+
 
         <div className="flex justify-center gap-4 mt-4">
           <button

@@ -30,6 +30,44 @@ export function IPAConsonantKeyboard({ onSelect }) {
   );
 }
 
+export function ModifierKeyboard({ onAddModifier, onConfirm, onCancel, current }) {
+  return (
+    <div className="flex flex-col items-center mt-6">
+      <h3 className="text-lg font-semibold mb-2 text-black">
+        Add articulation modifiers
+      </h3>
+
+      <div className="flex gap-3 flex-wrap justify-center mb-4">
+        {MODIFIERS.map((m) => (
+          <button
+            key={m}
+            onClick={() => onAddModifier(m)}
+            className="px-4 py-2 bg-white text-black rounded-xl border shadow hover:bg-lime-100"
+          >
+            {m}
+          </button>
+        ))}
+      </div>
+
+      <div className="flex gap-4">
+        <button
+          onClick={onCancel}
+          className="px-4 py-2 bg-white border rounded-xl hover:bg-lime-100"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={onConfirm}
+          className="px-4 py-2 bg-lime-200 border border-lime-500 rounded-xl hover:bg-lime-300"
+        >
+          Confirm: {current}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
 // ---------------- Vowel Keyboard ----------------
 export function IPAVowelKeyboard({ onSelect }) {
   const [isDiphthongMode, setIsDiphthongMode] = useState(false);

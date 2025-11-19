@@ -157,6 +157,15 @@ export const DIP_G = {
   damma: ["ʊ", "o", "ʉ", "ɵ", "ʏ", "ø", "ɔ", "ɯ", "y", "œ"],
 };
 
+export const MODIFIERS = {
+  "ʰ": "ھ",     // aspiration — add h
+  "ʼ": "ؔ",     // ejective — glottal stop mark
+  "ʷ": "ُْو",     // labialization — damma (u-coloring)
+  "ʲ": "ْي",    // palatalization — kasra + ya
+  "ˤ": "ؑ",     // pharyngealization — dot below
+  "ˠ": "ؐ",     // velarization — sukun mark
+};
+
 // Helpers
 export function applyTa2wil(consonantList) {
   const interp = {};
@@ -212,26 +221,48 @@ export function handleDiphthong(v1, v2, system) {
 
 export function mapPhonemes(consonantList, vowelList, system) {
   const result = {};
-  for (const c of consonantList) {
-    if (!CONSONANTS[c]) continue;
-    result[c] = {};
-    for (const v of vowelList) {
-      // diphthong token check (two-char token like "ai")
-      if (v.length === 2 && VOWELS[v[0]] && VOWELS[v[1]]) {
+
+  for (const fullC of consonantList) {
+    // PART 5 — extract the base consonant (first IPA symbol)
+    const baseC = fullC[0]; // e.g., "p" from "pʰʷ"
+    const mods = fullC.slice(1); // "ʰʷ"
+
+    if (!CONSONANTS[baseC]) continue;
+
+    result[fullC] = {}; // key stays the full consonant with modifiers
+
+    for (let v of vowelList) {
+      // DIPHTHONG CHECK
+      if (
+        v.length === 2 &&
+        VOWELS[v[0]] &&
+        VOWELS[v[1]]
+      ) {
         const out = handleDiphthong(v[0], v[1], system);
-        result[c][v] = CONSONANTS[c] + out;
+
+        // FULL consonant (with modifiers) maps to vowel output normally
+        result[fullC][v] = CONSONANTS[baseC] + out;
         continue;
       }
+
       const fallback = applyVowelTa2wil([v]);
+
       if (!VOWELS[v] && fallback[v]) v = fallback[v];
       if (!VOWELS[v]) continue;
-      if (system === 'abjad') result[c][v] = CONSONANTS[c];
-      else if (system === 'alphabetic') result[c][v] = CONSONANTS[c] + VOWELS[v].letter;
-      else if (system === 'alpha-syllabary') result[c][v] = CONSONANTS[c] + VOWELS[v].diacritic;
+
+      if (system === "abjad") {
+        result[fullC][v] = CONSONANTS[baseC];
+      } else if (system === "alphabetic") {
+        result[fullC][v] = CONSONANTS[baseC] + VOWELS[v].letter;
+      } else if (system === "alpha-syllabary") {
+        result[fullC][v] = CONSONANTS[baseC] + VOWELS[v].diacritic;
+      }
     }
   }
+
   return result;
 }
+
 
 export function mapWithTa2wil(consonantList, vowelList, system) {
   const cInterp = applyTa2wil(consonantList);
